@@ -6,7 +6,7 @@ import QuranReader from './components/quran/QuranReader.jsx'
 // import QuranPage from './components/quran/QuranPage.tsx'
 import QiblaAndPrayerTimes from './components/qibla/QiblaAndPrayerTimes.jsx'
 import HadithCollection from './components/hadith/HadithCollection.jsx'
-import AyahViewer from './AyahViewer.jsx'
+import AyahViewer from './components/quran/AyahViewer.jsx'
 import ScholarsEncyclopedia from './components/scholars/ScholarsEncyclopedia.jsx'
 import AudioLibrary from './components/media/AudioLibrary.jsx'
 import VideoLibrary from './components/media/VideoLibrary.jsx'
@@ -452,4 +452,3 @@ function App() {
 }
 
 export default App
-

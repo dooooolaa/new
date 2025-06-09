@@ -26,8 +26,8 @@ export default function QuranReader() {
       <SurahPlayer
         surahName={surah.englishName}
         reciterName="رعد محمد الكردي"
-        reciterImg={https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPtLFfPujGfBxXLu2E5zqjiy-vo11bAMjGdQ&s}
-        audioSrc={https://server6.mp3quran.net/kurdi}
+        reciterImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPtLFfPujGfBxXLu2E5zqjiy-vo11bAMjGdQ&s"
+        audioSrc="https://server6.mp3quran.net/kurdi"
         onPrev={() => navigate(`/quran/${+surahNumber - 1}`)}
         onNext={() => navigate(`/quran/${+surahNumber + 1}`)}
       />
