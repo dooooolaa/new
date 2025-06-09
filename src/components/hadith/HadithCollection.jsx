@@ -43,17 +43,22 @@ export default function HadithCollection() {
   const [searchTerm, setSearchTerm] = useState('')
   const [bookInfo, setBookInfo] = useState(null)
 
+  const hadithsPerPage = 15
+  const [totalHadiths, setTotalHadiths] = useState(0)
+
   useEffect(() => {
     fetchHadiths()
-  }, [selectedBook, currentPage])
+  }, [selectedBook])
 
   const fetchHadiths = async () => {
     setLoading(true)
     try {
-      const data = await getSectionOrHadith(selectedBook, currentPage)
+      const data = await getBook(selectedBook)
       if (data) {
         setHadiths(data.hadiths || [])
         setBookInfo(data.metadata)
+        setTotalHadiths((data.hadiths || []).length)
+        setCurrentPage(1)
       }
     } catch (err) {
       console.error('حدث خطأ عند جلب الأحاديث:', err)
@@ -62,6 +67,8 @@ export default function HadithCollection() {
   }
 
   const filteredHadiths = hadiths.filter(h => h.text && h.text.includes(searchTerm))
+  const paginatedHadiths = filteredHadiths.slice((currentPage - 1) * hadithsPerPage, currentPage * hadithsPerPage)
+  const totalPages = Math.ceil(filteredHadiths.length / hadithsPerPage)
 
   return (
     <div className="min-h-screen bg-slate-900 text-white p-6">
@@ -71,7 +78,7 @@ export default function HadithCollection() {
         {Object.entries(hadithBooks).map(([key, b]) => (
           <button
             key={key}
-            onClick={() => { setSelectedBook(key); setCurrentPage(1) }}
+            onClick={() => { setSelectedBook(key) }}
             className={`p-4 border rounded-lg ${selectedBook === key ? 'border-yellow-400 bg-yellow-900/30' : 'border-gray-600 bg-gray-800'}`}
           >
             <h2 className="text-lg font-bold text-yellow-300">{b.name}</h2>
@@ -85,15 +92,15 @@ export default function HadithCollection() {
         type="text"
         placeholder="ابحث في الأحاديث..."
         value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+        onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1) }}
         className="w-full p-2 mb-6 rounded bg-gray-800 border border-gray-600 text-white"
       />
 
       {loading ? <p className="text-center">جاري التحميل...</p> : (
         <div className="space-y-4">
-          {filteredHadiths.length ? filteredHadiths.map((hadith, i) => (
+          {paginatedHadiths.length ? paginatedHadiths.map((hadith, i) => (
             <div key={i} className="p-4 border border-gray-700 rounded bg-gray-800">
-              <p className="text-yellow-300 mb-2">حديث رقم {hadith.hadithnumber || i + 1}</p>
+              <p className="text-yellow-300 mb-2">حديث رقم {hadith.hadithnumber || ((currentPage - 1) * hadithsPerPage + i + 1)}</p>
               <p dir="rtl" className="text-lg leading-loose">{hadith.text}</p>
               {hadith.reference && (
                 <p className="mt-2 text-sm text-gray-400">المرجع: {hadith.reference.book} - {hadith.reference.hadith}</p>
@@ -103,10 +110,10 @@ export default function HadithCollection() {
         </div>
       )}
 
-      <div className="flex justify-center mt-6 gap-4">
-        <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded">السابق</button>
-        <span className="px-4 py-2 bg-yellow-500 text-black rounded">القسم {currentPage}</span>
-        <button onClick={() => setCurrentPage(p => p + 1)} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded">التالي</button>
+      <div className="flex justify-center mt-6 gap-4 flex-wrap">
+        <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(1, p - 1))} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded disabled:opacity-50">السابق</button>
+        <span className="px-4 py-2 bg-yellow-500 text-black rounded">الصفحة {currentPage} من {totalPages}</span>
+        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded disabled:opacity-50">التالي</button>
       </div>
     </div>
   )
