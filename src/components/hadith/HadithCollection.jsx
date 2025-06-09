@@ -27,40 +27,25 @@ export default function HadithCollection() {
   const fetchHadiths = async () => {
     setLoading(true)
     try {
-      // First try to fetch the book metadata
-      const metadataResponse = await fetch(`${HADITH_API_BASE}/editions/ara-${selectedBook}/metadata.json`)
-      if (metadataResponse.ok) {
-        const metadata = await metadataResponse.json()
-        setBookInfo(metadata)
-      }
-
-      // Try to fetch hadiths by section first
+      // Fetch a section of hadiths (sections 1-10 for demonstration)
       const sectionNumber = currentPage
       const response = await fetch(`${HADITH_API_BASE}/editions/ara-${selectedBook}/sections/${sectionNumber}.json`)
       
       if (response.ok) {
         const data = await response.json()
-        if (data.hadiths && data.hadiths.length > 0) {
-          setHadiths(data.hadiths)
-          return
+        setHadiths(data.hadiths || [])
+        setBookInfo(data.metadata)
+      } else {
+        // Fallback to individual hadith if sections don't work
+        const hadithResponse = await fetch(`${HADITH_API_BASE}/editions/ara-${selectedBook}/${currentPage}.json`)
+        if (hadithResponse.ok) {
+          const hadithData = await hadithResponse.json()
+          setHadiths(hadithData.hadiths || [])
+          setBookInfo(hadithData.metadata)
         }
       }
-
-      // If section fetch fails or returns no hadiths, try individual hadith
-      const hadithResponse = await fetch(`${HADITH_API_BASE}/editions/ara-${selectedBook}/${currentPage}.json`)
-      if (hadithResponse.ok) {
-        const hadithData = await hadithResponse.json()
-        if (hadithData.hadiths && hadithData.hadiths.length > 0) {
-          setHadiths(hadithData.hadiths)
-          return
-        }
-      }
-
-      // If both attempts fail, set empty array
-      setHadiths([])
     } catch (error) {
       console.error('Error fetching hadiths:', error)
-      setHadiths([])
     }
     setLoading(false)
   }
