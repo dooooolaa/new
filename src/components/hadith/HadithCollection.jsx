@@ -1,20 +1,38 @@
+// الكود الكامل مع API endpoints المضمونة من Hadith API
+
 import { useState, useEffect } from 'react'
 
 const HADITH_API_BASE = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1'
 
-const hadithBooks = [
-  { id: 'bukhari', name: 'صحيح البخاري' },
-  { id: 'muslim', name: 'صحيح مسلم' },
-  { id: 'tirmidhi', name: 'سنن الترمذي' },
-  { id: 'nasai', name: 'سنن النسائي' },
-  { id: 'abudawood', name: 'سنن أبي داود' },
-  { id: 'ibnmajah', name: 'سنن ابن ماجه' },
-  { id: 'malik', name: 'موطأ مالك' }
-]
+const hadithBooks = {
+  'bukhari': { name: 'صحيح البخاري', nameEn: 'Sahih al-Bukhari', description: 'أصح كتاب بعد كتاب الله' },
+  'muslim': { name: 'صحيح مسلم', nameEn: 'Sahih Muslim', description: 'ثاني أصح الكتب بعد البخاري' },
+  'abudawud': { name: 'سنن أبي داود', nameEn: 'Sunan Abu Dawud', description: 'من كتب السنن الأربعة' },
+  'tirmidhi': { name: 'سنن الترمذي', nameEn: 'Jami at-Tirmidhi', description: 'من كتب السنن الأربعة' },
+  'nasai': { name: 'سنن النسائي', nameEn: 'Sunan an-Nasai', description: 'من كتب السنن الأربعة' },
+  'ibnmajah': { name: 'سنن ابن ماجه', nameEn: 'Sunan Ibn Majah', description: 'من كتب السنن الأربعة' }
+}
 
-const getBook = async (bookId) => {
-  const res = await fetch(`${HADITH_API_BASE}/${bookId}/ar.json`)
-  return await res.json()
+// API call helpers
+async function getAllEditions() {
+  const res = await fetch(`${HADITH_API_BASE}/editions.json`)
+  return res.ok ? res.json() : null
+}
+
+async function getBook(book) {
+  const res = await fetch(`${HADITH_API_BASE}/editions/ara-${book}.json`)
+  return res.ok ? res.json() : null
+}
+
+async function getHadithByNumber(book, number) {
+  const res = await fetch(`${HADITH_API_BASE}/editions/ara-${book}/${number}.json`)
+  return res.ok ? res.json() : null
+}
+
+async function getSectionOrHadith(book, section) {
+  const sectionRes = await fetch(`${HADITH_API_BASE}/editions/ara-${book}/sections/${section}.json`)
+  if (sectionRes.ok) return sectionRes.json()
+  return getHadithByNumber(book, section)
 }
 
 export default function HadithCollection() {
@@ -24,9 +42,9 @@ export default function HadithCollection() {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
   const [bookInfo, setBookInfo] = useState(null)
-  const [selectedHadith, setSelectedHadith] = useState(null)
 
   const hadithsPerPage = 15
+  const [totalHadiths, setTotalHadiths] = useState(0)
 
   useEffect(() => {
     fetchHadiths()
@@ -39,93 +57,63 @@ export default function HadithCollection() {
       if (data) {
         setHadiths(data.hadiths || [])
         setBookInfo(data.metadata)
+        setTotalHadiths((data.hadiths || []).length)
         setCurrentPage(1)
       }
     } catch (err) {
-      console.error(err)
+      console.error('حدث خطأ عند جلب الأحاديث:', err)
     }
     setLoading(false)
   }
 
-  const filtered = hadiths.filter(h => h.text && h.text.includes(searchTerm))
-  const paginated = filtered.slice((currentPage - 1) * hadithsPerPage, currentPage * hadithsPerPage)
-  const totalPages = Math.ceil(filtered.length / hadithsPerPage)
+  const filteredHadiths = hadiths.filter(h => h.text && h.text.includes(searchTerm))
+  const paginatedHadiths = filteredHadiths.slice((currentPage - 1) * hadithsPerPage, currentPage * hadithsPerPage)
+  const totalPages = Math.ceil(filteredHadiths.length / hadithsPerPage)
 
   return (
-    <div className="p-6 text-white bg-gray-800 min-h-screen">
-      <div className="flex justify-between items-center mb-4">
-        <select
-          value={selectedBook}
-          onChange={(e) => setSelectedBook(e.target.value)}
-          className="bg-gray-700 p-2 rounded text-white"
-        >
-          {hadithBooks.map((book) => (
-            <option key={book.id} value={book.id}>{book.name}</option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="ابحث عن حديث"
-          className="bg-gray-700 p-2 rounded text-white"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+    <div className="min-h-screen bg-slate-900 text-white p-6">
+      <h1 className="text-3xl font-bold text-yellow-400 text-center mb-4">الحديث الشريف</h1>
+
+      <div className="grid md:grid-cols-3 gap-4 mb-6">
+        {Object.entries(hadithBooks).map(([key, b]) => (
+          <button
+            key={key}
+            onClick={() => { setSelectedBook(key) }}
+            className={`p-4 border rounded-lg ${selectedBook === key ? 'border-yellow-400 bg-yellow-900/30' : 'border-gray-600 bg-gray-800'}`}
+          >
+            <h2 className="text-lg font-bold text-yellow-300">{b.name}</h2>
+            <p className="text-sm text-gray-400">{b.nameEn}</p>
+            <p className="text-xs text-gray-500 mt-1">{b.description}</p>
+          </button>
+        ))}
       </div>
 
-      {loading ? (
-        <p>جاري التحميل...</p>
-      ) : (
-        <div>
-          {paginated.map((h, i) => (
-            <button
-              key={i}
-              onClick={() => setSelectedHadith(h)}
-              className="block w-full text-right border-b border-gray-600 py-4 hover:bg-gray-700"
-            >
-              <p>حديث رقم {h.hadithnumber || ((currentPage - 1) * hadithsPerPage + i + 1)}</p>
-              <p dir="rtl">{h.text.slice(0, 100)}...</p>
-            </button>
-          ))}
+      <input
+        type="text"
+        placeholder="ابحث في الأحاديث..."
+        value={searchTerm}
+        onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1) }}
+        className="w-full p-2 mb-6 rounded bg-gray-800 border border-gray-600 text-white"
+      />
+
+      {loading ? <p className="text-center">جاري التحميل...</p> : (
+        <div className="space-y-4">
+          {paginatedHadiths.length ? paginatedHadiths.map((hadith, i) => (
+            <div key={i} className="p-4 border border-gray-700 rounded bg-gray-800">
+              <p className="text-yellow-300 mb-2">حديث رقم {hadith.hadithnumber || ((currentPage - 1) * hadithsPerPage + i + 1)}</p>
+              <p dir="rtl" className="text-lg leading-loose">{hadith.text}</p>
+              {hadith.reference && (
+                <p className="mt-2 text-sm text-gray-400">المرجع: {hadith.reference.book} - {hadith.reference.hadith}</p>
+              )}
+            </div>
+          )) : <p className="text-center text-gray-400">لا توجد أحاديث</p>}
         </div>
       )}
 
-      {selectedHadith && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-gray-900 text-white p-6 rounded-lg max-w-xl w-full">
-            <h3 className="text-xl font-bold mb-4">حديث رقم {selectedHadith.hadithnumber}</h3>
-            <div dir="rtl" className="mb-4">{selectedHadith.text}</div>
-            {selectedHadith.grades?.length > 0 && (
-              <div className="mb-2"><strong>الدرجة:</strong> {selectedHadith.grades[0]}</div>
-            )}
-            {bookInfo?.section && selectedHadith.section && (
-              <div className="mb-2"><strong>الباب:</strong> {bookInfo.section[selectedHadith.section]}</div>
-            )}
-            <button
-              onClick={() => setSelectedHadith(null)}
-              className="mt-4 px-4 py-2 bg-yellow-500 text-black rounded"
-            >
-              إغلاق
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className="flex justify-between items-center mt-6">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(p => p - 1)}
-          className="px-4 py-2 bg-gray-700 rounded disabled:opacity-50"
-        >
-          السابق
-        </button>
-        <span>صفحة {currentPage} من {totalPages}</span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(p => p + 1)}
-          className="px-4 py-2 bg-gray-700 rounded disabled:opacity-50"
-        >
-          التالي
-        </button>
+      <div className="flex justify-center mt-6 gap-4 flex-wrap">
+        <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(1, p - 1))} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded disabled:opacity-50">السابق</button>
+        <span className="px-4 py-2 bg-yellow-500 text-black rounded">الصفحة {currentPage} من {totalPages}</span>
+        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded disabled:opacity-50">التالي</button>
       </div>
     </div>
   )
