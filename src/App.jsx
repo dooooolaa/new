@@ -282,7 +282,7 @@ function Navigation({ isDark, toggleTheme }) {
               {user ? (
                 <div className="flex items-center space-x-2">
                   <Link to="/dashboard">
-                    <Button variant="ghost\" size="sm\" className="arabic-text">
+                    <Button variant="ghost\" size=\"sm\" className=\"arabic-text">
                       <User className="h-4 w-4 ml-2" />
                       {user.name}
                     </Button>
