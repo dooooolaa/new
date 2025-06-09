@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import { Button } from '@/components/ui/button.jsx'
 import { Moon, Sun, Book, Heart, Calendar, Compass, MessageSquare, Clock, User, LogIn } from 'lucide-react'
 import QuranReader from './components/quran/QuranReader.jsx'
+import SurahsList from './components/quran/SurahsList.jsx'
 // import QuranPage from './components/quran/QuranPage.tsx'
 import QiblaAndPrayerTimes from './components/qibla/QiblaAndPrayerTimes.jsx'
 import HadithCollection from './components/hadith/HadithCollection.jsx'
-import AyahViewer from './components/quran/AyahViewer.jsx'
 import ScholarsEncyclopedia from './components/scholars/ScholarsEncyclopedia.jsx'
 import AudioLibrary from './components/media/AudioLibrary.jsx'
 import VideoLibrary from './components/media/VideoLibrary.jsx'
@@ -429,7 +429,7 @@ function App() {
           
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/quran" element={<QuranReader />} />
+            <Route path="/quran" element={<SurahsList />} />
             <Route path="/quran/:surahNumber" element={<QuranReader />} />
             <Route path="/hadith" element={<HadithCollection />} />
             <Route path="/scholars" element={<ScholarsEncyclopedia />} />
