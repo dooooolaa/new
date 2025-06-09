@@ -34,7 +34,7 @@ export default function QuranReader() {
 
 
       <AyahViewer
-        ayahs={surah.ayahs.slice(0, 19)}
+        ayahs={(surah.ayahs || []).slice(0, 19)}
         onPrevAyah={() => {}}
         onNextAyah={() => {}}
       />
