@@ -17,7 +17,6 @@ export default function HadithCollection() {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedSection, setSelectedSection] = useState(null)
   const [bookInfo, setBookInfo] = useState(null)
 
   useEffect(() => {
@@ -124,11 +123,9 @@ export default function HadithCollection() {
         {bookInfo && (
           <div className="mb-6 p-4 bg-gray-800/50 rounded-lg border border-gray-600">
             <h3 className="text-xl font-bold text-yellow-400 mb-2">{bookInfo.name}</h3>
-            {bookInfo.section && selectedSection && (
-              <p className="text-gray-300">
-                الباب: {bookInfo.section[selectedSection]} - القسم {currentPage}
-              </p>
-            )}
+            <p className="text-gray-300">
+              القسم {currentPage}
+            </p>
           </div>
         )}
 
