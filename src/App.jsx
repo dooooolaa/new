@@ -13,6 +13,9 @@ import InteractiveTests from './components/tests/InteractiveTests.jsx'
 import SmartSearch from './components/search/SmartSearch.jsx'
 import UserDashboard from './components/dashboard/UserDashboard.jsx'
 import AuthModal from './components/auth/AuthModal.jsx'
+import AzkarPage from './components/azkar/AzkarPage.jsx'
+import DuasPage from './components/duas/DuasPage.jsx'
+import CalendarPage from './components/calendar/CalendarPage.jsx'
 import { AuthProvider, useAuth } from './components/auth/AuthContext.jsx'
 import './App.css'
 
@@ -417,9 +420,9 @@ function App() {
             <Route path="/video" element={<VideoLibrary />} />
             <Route path="/tests" element={<InteractiveTests />} />
             <Route path="/search" element={<SmartSearch />} />
-            <Route path="/azkar" element={<ComingSoon title="الأذكار" />} />
-            <Route path="/duas" element={<ComingSoon title="الأدعية" />} />
-            <Route path="/calendar" element={<ComingSoon title="التقويم الهجري" />} />
+            <Route path="/azkar" element={<AzkarPage />} />
+            <Route path="/duas" element={<DuasPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/qibla" element={<QiblaAndPrayerTimes />} />
             <Route path="/dashboard" element={<UserDashboard />} />
           </Routes>
