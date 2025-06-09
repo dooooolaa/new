@@ -125,6 +125,34 @@
   }
 }
 
+/* Dark mode specific styles */
+.dark .islamic-card {
+  @apply bg-gray-800 border-gray-700 text-gray-100;
+}
+
+.dark .islamic-card-red {
+  @apply border-red-600;
+}
+
+.dark .islamic-card-blue {
+  @apply border-blue-600;
+}
+
+.dark .islamic-card-green {
+  @apply border-green-600;
+}
+
+.dark .title-text {
+  @apply text-gray-100;
+}
+
+.dark .arabic-text {
+  @apply text-gray-300;
+}
+
+.dark .quran-text {
+  @apply text-gray-100;
+}
 
 /* Arabic fonts */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap");

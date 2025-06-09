@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Moon, Sun, Book, Heart, Calendar, Compass, MessageSquare, Clock, User, LogIn } from 'lucide-react'
@@ -397,17 +397,31 @@ function ComingSoon({ title }) {
 }
 
 function App() {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(() => {
+    // Check if user has a saved preference
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      return savedTheme === 'dark'
+    }
+    // Check system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  })
+
+  useEffect(() => {
+    // Update localStorage when theme changes
+    localStorage.setItem('theme', isDark ? 'dark' : 'light')
+    // Update document class
+    document.documentElement.classList.toggle('dark', isDark)
+  }, [isDark])
 
   const toggleTheme = () => {
-    setIsDark(!isDark)
-    document.documentElement.classList.toggle('dark')
+    setIsDark(prev => !prev)
   }
 
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-background">
+        <div className={`min-h-screen ${isDark ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
           <Navigation isDark={isDark} toggleTheme={toggleTheme} />
           
           <Routes>
