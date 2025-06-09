@@ -374,7 +374,9 @@ function Footer() {
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="arabic-text text-gray-300">
-            جميع الحقوق محفوظة © 2025 الإسلام حياة
+            <a href="https://mohamed-adel-portfolio.netlify.app/" target="_blank" rel="noopener noreferrer">
+              جميع الحقوق محفوظة ل Mohamed Adel
+            </a>
           </p>
         </div>
       </div>
