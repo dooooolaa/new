@@ -21,6 +21,8 @@ export default function QuranReader() {
 
   return (
     <div className="p-4">
+
+      
       <SurahPlayer
         surahName={surah.englishName}
         reciterName="رعد محمد الكردي"
@@ -29,6 +31,7 @@ export default function QuranReader() {
         onPrev={() => navigate(`/quran/${+surahNumber - 1}`)}
         onNext={() => navigate(`/quran/${+surahNumber + 1}`)}
       />
+
 
       <AyahViewer
         ayahs={surah.ayahs.slice(0, 19)}

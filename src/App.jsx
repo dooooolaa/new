@@ -103,7 +103,7 @@ function HomePage() {
             <h2 className="title-text text-2xl font-bold text-gray-800 mb-4">
               احرص على قراءة القرآن وذكر الله كل يوم
             </h2>
-            <p className="quran-text text-xl text-green-600 leading-relaxed">
+            <p className="quran-text text-xl text-green-800 leading-relaxed">
               قال تعالى: ﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾
             </p>
           </div>
@@ -159,7 +159,7 @@ function Navigation({ isDark, toggleTheme }) {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to="/" className="title-text text-2xl font-bold text-green-600">
+            <Link to="/" className="title-text text-2xl font-bold text-green-800">
               الإسلام حياة
             </Link>
 
@@ -169,8 +169,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/quran" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/quran' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 القرآن الكريم
@@ -179,8 +179,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/hadith" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/hadith' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 الحديث الشريف
@@ -189,8 +189,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/azkar" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/azkar' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 الأذكار
@@ -199,8 +199,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/scholars" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/scholars' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 موسوعة العلماء
@@ -209,8 +209,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/audio" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/audio' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 المكتبة الصوتية
@@ -219,8 +219,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/video" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/video' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 المكتبة المرئية
@@ -229,8 +229,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/tests" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/tests' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 الاختبارات التفاعلية
@@ -239,8 +239,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/search" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/search' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 البحث الذكي
@@ -249,8 +249,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/duas" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/duas' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-800'
                 }`}
               >
                 الأدعية
@@ -259,8 +259,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/calendar" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/calendar' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-700'
                 }`}
               >
                 التقويم الهجري
@@ -269,8 +269,8 @@ function Navigation({ isDark, toggleTheme }) {
                 to="/qibla" 
                 className={`arabic-text transition-colors ${
                   location.pathname === '/qibla' 
-                    ? 'text-green-600 font-semibold' 
-                    : 'text-gray-700 hover:text-green-600'
+                    ? 'text-green-800 font-semibold' 
+                    : 'text-gray-700 hover:text-green-700'
                 }`}
               >
                 اتجاه القبلة
