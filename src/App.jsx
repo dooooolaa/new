@@ -1,13 +1,9 @@
-import { useState, createContext, useContext, useEffect } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { Button } from '@/components/ui/button.jsx'
 import { Moon, Sun, Book, Heart, Calendar, Compass, MessageSquare, Clock, User, LogIn } from 'lucide-react'
 import QuranReader from './components/quran/QuranReader.jsx'
-<<<<<<< HEAD
 import QuranPage from './components/quran/QuranPage.tsx'
-=======
-import SurahsList from './components/quran/SurahsList.jsx'
-// import QuranPage from './components/quran/QuranPage.tsx'
->>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
 import QiblaAndPrayerTimes from './components/qibla/QiblaAndPrayerTimes.jsx'
 import HadithCollection from './components/hadith/HadithCollection.jsx'
 import ScholarsEncyclopedia from './components/scholars/ScholarsEncyclopedia.jsx'
@@ -17,250 +13,272 @@ import InteractiveTests from './components/tests/InteractiveTests.jsx'
 import SmartSearch from './components/search/SmartSearch.jsx'
 import UserDashboard from './components/dashboard/UserDashboard.jsx'
 import AuthModal from './components/auth/AuthModal.jsx'
-import AzkarPage from './components/azkar/AzkarPage.jsx'
-import DuasPage from './components/duas/DuasPage.jsx'
-import CalendarPage from './components/calendar/CalendarPage.jsx'
 import { AuthProvider, useAuth } from './components/auth/AuthContext.jsx'
 import './App.css'
-
-// Theme Context
-const ThemeContext = createContext()
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext)
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-  return context
-}
-
-const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme')
-    return saved ? saved === 'dark' : false
-  })
-
-  useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [isDarkMode])
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
-
-  return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
-}
 
 function HomePage() {
   const sections = [
     {
-      title: "القرآن الكريم",
-      description: "تصفح القرآن الكريم كاملاً مع تفسير الآيات",
+      id: 'quran',
+      title: 'القرآن الكريم',
+      description: 'تصفح القرآن الكريم كاملاً مع تفسير الآيات والاستماع إلى التلاوات بأصوات مختلفة',
       icon: Book,
-      color: "from-blue-500 to-purple-600",
-      link: "/quran"
+      color: 'blue',
+      link: '/quran'
     },
     {
-      title: "الحديث الشريف",
-      description: "مجموعة من الأحاديث النبوية الصحيحة مصنفة",
+      id: 'hadith',
+      title: 'الحديث الشريف',
+      description: 'مجموعة من الأحاديث النبوية الصحيحة مصنفة حسب الأبواب الفقهية',
       icon: MessageSquare,
-      color: "from-red-500 to-pink-600",
-      link: "/hadith"
+      color: 'red',
+      link: '/hadith'
     },
     {
-      title: "الأذكار",
-      description: "أذكار الصباح والمساء وأذكار بعد الصلاة وأذكار",
+      id: 'azkar',
+      title: 'الأذكار',
+      description: 'أذكار الصباح والمساء وأذكار بعد الصلاة وأذكار اليوم وغيرها',
       icon: Heart,
-      color: "from-green-500 to-emerald-600",
-      link: "/azkar"
+      color: 'green',
+      link: '/azkar'
     },
     {
-      title: "الأدعية",
-      description: "مجموعة شاملة من الأدعية المأثورة",
+      id: 'duas',
+      title: 'الأدعية',
+      description: 'مجموعة من الأدعية المأثورة عن النبي صلى الله عليه وسلم',
       icon: Heart,
-      color: "from-pink-500 to-rose-600",
-      link: "/duas"
+      color: 'pink',
+      link: '/duas'
     },
     {
-      title: "التقويم الهجري",
-      description: "التقويم الهجري مع أوقات الصلاة والمناسبات",
+      id: 'calendar',
+      title: 'التقويم الهجري',
+      description: 'التقويم الهجري مع أوقات الصلاة والمناسبات الإسلامية',
       icon: Calendar,
-      color: "from-orange-500 to-yellow-600",
-      link: "/calendar"
+      color: 'orange',
+      link: '/calendar'
     },
     {
-      title: "اتجاه القبلة",
-      description: "تحديد اتجاه القبلة وأوقات الصلاة",
+      id: 'qibla',
+      title: 'اتجاه القبلة',
+      description: 'تحديد اتجاه القبلة وأوقات الصلاة حسب موقعك',
       icon: Compass,
-      color: "from-teal-500 to-cyan-600",
-      link: "/qibla"
+      color: 'teal',
+      link: '/qibla'
     }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-white mb-6">
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-green-50 to-white py-20">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h1 className="title-text text-5xl md:text-6xl font-bold text-gray-800 mb-6">
             الإسلام حياة
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="arabic-text text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             موقع إسلامي شامل يجمع القرآن الكريم والأحاديث النبوية والأذكار والأدعية والمزيد
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/quran" 
-              className="inline-flex items-center px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
-            >
-              <Book className="ml-2" size={20} />
-              تصفح القرآن الكريم
+          {/* Call to Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Link to="/quran">
+              <Button size="lg" className="arabic-text text-lg px-8 py-3">
+                تصفح القرآن الكريم
+              </Button>
             </Link>
-            <Link 
-              to="/azkar" 
-              className="inline-flex items-center px-8 py-4 bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
-            >
-              <Heart className="ml-2" size={20} />
-              الأذكار اليومية
+            <Link to="/azkar">
+              <Button variant="outline" size="lg" className="arabic-text text-lg px-8 py-3">
+                الأذكار اليومية
+              </Button>
             </Link>
           </div>
-        </div>
 
-        {/* Daily Reminder */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-16 border border-gray-200 dark:border-gray-700">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+          {/* Verse */}
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+            <h2 className="title-text text-2xl font-bold text-gray-800 mb-4">
               احرص على قراءة القرآن وذكر الله كل يوم
             </h2>
-            <p className="text-xl text-green-600 dark:text-green-400 font-semibold">
+            <p className="quran-text text-xl text-green-600 leading-relaxed">
               قال تعالى: ﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾
             </p>
           </div>
         </div>
+      </section>
 
-        {/* Sections Grid */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
+      {/* Sections Grid */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="title-text text-4xl font-bold text-center text-gray-800 mb-12">
             أقسام الموقع
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sections.map((section, index) => {
+          
+          <div className="section-grid">
+            {sections.map((section) => {
               const IconComponent = section.icon
               return (
-                <Link
-                  key={index}
-                  to={section.link}
-                  className="group relative overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-90 group-hover:opacity-100 transition-opacity`}></div>
-                  <div className="relative p-8 text-white">
-                    <div className="flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6 mx-auto">
+                <Link key={section.id} to={section.link}>
+                  <div className={`islamic-card islamic-card-${section.color} h-full`}>
+                    <div className={`islamic-icon islamic-icon-${section.color}`}>
                       <IconComponent size={32} />
                     </div>
-                    <h3 className="text-2xl font-bold text-center mb-4">
+                    <h3 className="title-text text-xl font-bold text-gray-800 mb-3 text-center">
                       {section.title}
                     </h3>
-                    <p className="text-center text-white/90 leading-relaxed">
+                    <p className="arabic-text text-gray-600 text-center leading-relaxed">
                       {section.description}
                     </p>
+                    <div className="mt-6 text-center">
+                      <Button variant="outline" className="arabic-text">
+                        تصفح القسم ←
+                      </Button>
+                    </div>
                   </div>
                 </Link>
               )
             })}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
 
-function Navigation() {
-  const { isDarkMode, toggleTheme } = useTheme()
+function Navigation({ isDark, toggleTheme }) {
   const { user, logout } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const location = useLocation()
 
-  const navItems = [
-    { name: 'الإسلام حياة', path: '/', icon: null },
-    { name: 'القرآن الكريم', path: '/quran', icon: Book },
-    { name: 'الحديث الشريف', path: '/hadith', icon: MessageSquare },
-    { name: 'الأذكار', path: '/azkar', icon: Heart },
-    { name: 'موسوعة العلماء', path: '/scholars', icon: User },
-    { name: 'المكتبة الصوتية', path: '/audio', icon: null },
-    { name: 'المكتبة المرئية', path: '/video', icon: null },
-    { name: 'الاختبارات التفاعلية', path: '/tests', icon: null },
-    { name: 'البحث الذكي', path: '/search', icon: null },
-    { name: 'الأدعية', path: '/duas', icon: Heart },
-    { name: 'التقويم الهجري', path: '/calendar', icon: Calendar },
-    { name: 'اتجاه القبلة', path: '/qibla', icon: Compass }
-  ]
-
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">إ</span>
-            </div>
-            <span className="text-xl font-bold text-gray-800 dark:text-white hidden sm:block">
+    <>
+      <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link to="/" className="title-text text-2xl font-bold text-green-600">
               الإسلام حياة
-            </span>
-          </Link>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navItems.slice(1, 6).map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === item.path
-                    ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link 
+                to="/quran" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/quran' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
                 }`}
               >
-                {item.name}
+                القرآن الكريم
               </Link>
-            ))}
-          </div>
+              <Link 
+                to="/hadith" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/hadith' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                الحديث الشريف
+              </Link>
+              <Link 
+                to="/azkar" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/azkar' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                الأذكار
+              </Link>
+              <Link 
+                to="/scholars" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/scholars' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                موسوعة العلماء
+              </Link>
+              <Link 
+                to="/audio" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/audio' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                المكتبة الصوتية
+              </Link>
+              <Link 
+                to="/video" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/video' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                المكتبة المرئية
+              </Link>
+              <Link 
+                to="/tests" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/tests' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                الاختبارات التفاعلية
+              </Link>
+              <Link 
+                to="/search" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/search' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                البحث الذكي
+              </Link>
+              <Link 
+                to="/duas" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/duas' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                الأدعية
+              </Link>
+              <Link 
+                to="/calendar" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/calendar' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                التقويم الهجري
+              </Link>
+              <Link 
+                to="/qibla" 
+                className={`arabic-text transition-colors ${
+                  location.pathname === '/qibla' 
+                    ? 'text-green-600 font-semibold' 
+                    : 'text-gray-700 hover:text-green-600'
+                }`}
+              >
+                اتجاه القبلة
+              </Link>
+            </div>
 
-<<<<<<< HEAD
-          {/* Right side controls */}
-          <div className="flex items-center space-x-4">
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-
-            {/* Auth */}
-            {user ? (
-              <div className="flex items-center space-x-2">
-                <Link
-                  to="/dashboard"
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 transition-colors"
-=======
             {/* Right side buttons */}
             <div className="flex items-center space-x-4">
               {user ? (
                 <div className="flex items-center space-x-2">
                   <Link to="/dashboard">
-                    <Button variant="ghost\" size=\"sm\" className=\"arabic-text">
+                    <Button variant="ghost" size="sm" className="arabic-text">
                       <User className="h-4 w-4 ml-2" />
                       {user.name}
                     </Button>
@@ -280,127 +298,118 @@ function Navigation() {
                   size="sm" 
                   onClick={() => setShowAuthModal(true)}
                   className="arabic-text"
->>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
                 >
-                  <User size={16} />
-                  <span className="hidden sm:block">{user.name}</span>
-                </Link>
-                <button
-                  onClick={logout}
-                  className="px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                >
-                  خروج
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                  <LogIn className="h-4 w-4 ml-2" />
+                  تسجيل الدخول
+                </Button>
+              )}
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="p-2"
               >
-                <LogIn size={16} />
-                <span className="hidden sm:block">تسجيل الدخول</span>
-              </button>
-            )}
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+            </div>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Navigation */}
-        <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 py-2">
-          <div className="flex flex-wrap gap-2">
-            {navItems.slice(1, 13).map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
-                  location.pathname === item.path
-                    ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Auth Modal */}
-      {showAuthModal && (
-        <AuthModal onClose={() => setShowAuthModal(false)} />
-      )}
-    </nav>
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
+    </>
   )
 }
 
+function Footer() {
+  return (
+    <footer className="bg-gray-800 text-white py-12">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="title-text text-xl font-bold mb-4">الإسلام حياة</h3>
+            <p className="arabic-text text-gray-300 leading-relaxed">
+              موقع إسلامي شامل يهدف إلى تقديم المحتوى الإسلامي الصحيح بطريقة سهلة وميسرة.
+            </p>
+          </div>
+          <div>
+            <h3 className="title-text text-xl font-bold mb-4">روابط سريعة</h3>
+            <div className="space-y-2">
+              <Link to="/quran" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                القرآن الكريم
+              </Link>
+              <Link to="/hadith" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                الحديث الشريف
+              </Link>
+              <Link to="/azkar" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                الأذكار
+              </Link>
+              <Link to="/duas" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                الأدعية
+              </Link>
+            </div>
+          </div>
+          <div>
+            <h3 className="title-text text-xl font-bold mb-4">المصادر</h3>
+            <div className="space-y-2">
+              <a href="#" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                API القرآن الكريم
+              </a>
+              <a href="#" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                موقع الدرر السنية
+              </a>
+              <a href="#" className="arabic-text block text-gray-300 hover:text-white transition-colors">
+                حصن المسلم
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+          <p className="arabic-text text-gray-300">
+            جميع الحقوق محفوظة © 2025 الإسلام حياة
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+// Placeholder components for other pages
 function ComingSoon({ title }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
-        <div className="w-24 h-24 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Clock className="w-12 h-12 text-green-600 dark:text-green-400" />
-        </div>
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
-          {title}
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-          هذا القسم قيد التطوير وسيكون متاحاً قريباً إن شاء الله
-        </p>
-        <Link
-          to="/"
-          className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
-        >
-          العودة للصفحة الرئيسية
+        <h1 className="title-text text-4xl font-bold text-gray-800 mb-4">{title}</h1>
+        <p className="arabic-text text-xl text-gray-600 mb-8">قريباً إن شاء الله</p>
+        <Link to="/">
+          <Button className="arabic-text">العودة للصفحة الرئيسية</Button>
         </Link>
       </div>
     </div>
   )
 }
 
-function AppContent() {
-  return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
-      <Navigation />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/quran" element={<QuranPage />} />
-          <Route path="/quran/:surahNumber" element={<QuranReader />} />
-          <Route path="/hadith" element={<HadithCollection />} />
-          <Route path="/scholars" element={<ScholarsEncyclopedia />} />
-          <Route path="/audio" element={<AudioLibrary />} />
-          <Route path="/video" element={<VideoLibrary />} />
-          <Route path="/tests" element={<InteractiveTests />} />
-          <Route path="/search" element={<SmartSearch />} />
-          <Route path="/azkar" element={<AzkarPage />} />
-          <Route path="/duas" element={<DuasPage />} />
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/qibla" element={<QiblaAndPrayerTimes />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
-        </Routes>
-      </main>
-    </div>
-  )
-}
-
 function App() {
+  const [isDark, setIsDark] = useState(false)
+
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+    document.documentElement.classList.toggle('dark')
+  }
+
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
-=======
     <AuthProvider>
       <Router>
-        <div className={`min-h-screen ${isDark ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+        <div className="min-h-screen bg-background">
           <Navigation isDark={isDark} toggleTheme={toggleTheme} />
           
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/quran" element={<SurahsList />} />
+            <Route path="/quran" element={<QuranPage />} />
             <Route path="/quran/:surahNumber" element={<QuranReader />} />
             <Route path="/hadith" element={<HadithCollection />} />
             <Route path="/scholars" element={<ScholarsEncyclopedia />} />
@@ -408,9 +417,9 @@ function App() {
             <Route path="/video" element={<VideoLibrary />} />
             <Route path="/tests" element={<InteractiveTests />} />
             <Route path="/search" element={<SmartSearch />} />
-            <Route path="/azkar" element={<AzkarPage />} />
-            <Route path="/duas" element={<DuasPage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/azkar" element={<ComingSoon title="الأذكار" />} />
+            <Route path="/duas" element={<ComingSoon title="الأدعية" />} />
+            <Route path="/calendar" element={<ComingSoon title="التقويم الهجري" />} />
             <Route path="/qibla" element={<QiblaAndPrayerTimes />} />
             <Route path="/dashboard" element={<UserDashboard />} />
           </Routes>
@@ -419,8 +428,8 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
->>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
   )
 }
 
 export default App
+
