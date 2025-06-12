@@ -1,243 +1,353 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@custom-variant dark (&:is(.dark *));
+/* Arabic Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
+/* Root Variables */
 :root {
-  --radius: 0.625rem;
-  --background: #ffffff;
-  --foreground: #1A1A1A;
-  --card: #ffffff;
-  --card-foreground: #1A1A1A;
-  --popover: #ffffff;
-  --popover-foreground: #1A1A1A;
-  --primary: #2E7D32; /* Dark Green */
-  --primary-foreground: #ffffff;
-  --secondary: #C8E6C9; /* Light Green */
-  --secondary-foreground: #1A1A1A;
-  --muted: #F3F4F6; /* Light Gray */
-  --muted-foreground: #4B5563; /* Medium Gray */
-  --accent: #2E7D32;
-  --accent-foreground: #ffffff;
-  --destructive: #991B1B; /* Dark Red */
-  --border: #E5E7EB; /* Light Gray */
-  --input: #E5E7EB;
-  --ring: #2E7D32;
-  
-  /* Islamic website specific colors */
-  --color-red: #991B1B;
-  --color-blue: #1E40AF;
-  --color-green: #2E7D32;
-  --color-purple: #6B21A8;
-  --color-orange: #92400E;
-  --color-pink: #BE185D;
-  --color-teal: #0F766E;
-  --color-indigo: #3F51B5;
-  
-  --sidebar: #f5f5f5;
-  --sidebar-foreground: #1a1a1a;
-  --sidebar-primary: #4CAF50;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f5f5f5;
-  --sidebar-accent-foreground: #1a1a1a;
-  --sidebar-border: #e0e0e0;
-  --sidebar-ring: #4CAF50;
+  --primary-green: #16a34a;
+  --primary-green-dark: #15803d;
+  --primary-green-light: #22c55e;
+  --secondary-blue: #3b82f6;
+  --accent-gold: #f59e0b;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --background-light: #f9fafb;
+  --background-white: #ffffff;
 }
 
+/* Dark mode variables */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background-light: #111827;
+  --background-white: #1f2937;
+  --text-dark: #f9fafb;
+  --text-light: #d1d5db;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-/* Arabic fonts */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-
-/* Islamic website specific styles */
-.islamic-card {
-  @apply bg-white rounded-lg shadow-md p-6 border-2 transition-all duration-300 hover:shadow-lg;
+html {
+  scroll-behavior: smooth;
 }
 
-.islamic-card-red {
-  @apply border-red-500;
+body {
+  font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.6;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.islamic-card-blue {
-  @apply border-blue-500;
-}
-
-.islamic-card-green {
-  @apply border-green-500;
-}
-
-.islamic-card-purple {
-  @apply border-purple-500;
-}
-
-.islamic-card-orange {
-  @apply border-orange-500;
-}
-
-.islamic-card-pink {
-  @apply border-pink-500;
-}
-
-.islamic-card-teal {
-  @apply border-teal-500;
-}
-
-.islamic-card-indigo {
-  @apply border-indigo-500;
-}
-
-.islamic-icon {
-  @apply w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-4 mx-auto;
-}
-
-.islamic-icon-red {
-  @apply bg-red-500;
-}
-
-.islamic-icon-blue {
-  @apply bg-blue-500;
-}
-
-.islamic-icon-green {
-  @apply bg-green-500;
-}
-
-.islamic-icon-purple {
-  @apply bg-purple-500;
-}
-
-.islamic-icon-orange {
-  @apply bg-orange-500;
-}
-
-.islamic-icon-pink {
-  @apply bg-pink-500;
-}
-
-.islamic-icon-teal {
-  @apply bg-teal-500;
-}
-
-.islamic-icon-indigo {
-  @apply bg-indigo-500;
+/* Typography Classes */
+.title-text {
+  font-family: 'Amiri', serif;
+  font-weight: 700;
 }
 
 .arabic-text {
   font-family: 'Noto Sans Arabic', sans-serif;
-  direction: rtl;
-  text-align: right;
+  font-weight: 400;
 }
 
 .quran-text {
-  font-family: 'Noto Naskh Arabic', serif;
-  direction: rtl;
-  text-align: center;
-  line-height: 2;
-}
-
-.title-text {
   font-family: 'Amiri', serif;
-  direction: rtl;
+  font-weight: 400;
+  line-height: 2;
   text-align: center;
 }
 
-.basmala {
-  @apply text-yellow-600 text-2xl font-bold text-center mb-6;
-  font-family: 'Noto Naskh Arabic', serif;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.call-to-action-section {
-  @apply bg-green-500 text-white py-16 px-8 text-center;
+::-webkit-scrollbar-track {
+  background: var(--background-light);
 }
 
-.verse-number {
-  @apply inline-flex items-center justify-center w-8 h-8 text-sm rounded-full bg-blue-100 text-blue-800 mx-2;
+::-webkit-scrollbar-thumb {
+  background: var(--primary-green);
+  border-radius: 4px;
 }
 
-.section-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-green-dark);
 }
 
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Card Hover Effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-green-dark), var(--primary-green));
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--primary-green);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Islamic Color Palette */
+.bg-islamic-green {
+  background-color: var(--primary-green);
+}
+
+.bg-islamic-gold {
+  background-color: var(--accent-gold);
+}
+
+.text-islamic-green {
+  color: var(--primary-green);
+}
+
+.text-islamic-gold {
+  color: var(--accent-gold);
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-islamic {
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-blue));
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, var(--accent-gold), #f97316);
+}
+
+/* Card Styles */
+.islamic-card {
+  background: var(--background-white);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(22, 163, 74, 0.1);
+  transition: all 0.3s ease;
+}
+
+.islamic-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: var(--primary-green);
+}
+
+/* Surah Card Styles */
+.surah-card {
+  background: var(--background-white);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.surah-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-green), var(--secondary-blue));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.surah-card:hover::before {
+  transform: scaleX(1);
+}
+
+.surah-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-green);
+  box-shadow: 0 20px 25px -5px rgba(22, 163, 74, 0.15);
+}
+
+/* Search Input */
+.search-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Noto Sans Arabic', sans-serif;
+  transition: all 0.3s ease;
+  background: var(--background-white);
+  color: var(--text-dark);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid var(--primary-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .surah-card {
+    margin: 8px;
+    padding: 16px;
+  }
+  
+  .islamic-card {
+    padding: 16px;
+  }
+}
+
+/* Dark Mode Specific Styles */
+.dark .islamic-card {
+  background: var(--background-white);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+.dark .search-input {
+  background: var(--background-white);
+  border-color: #374151;
+  color: var(--text-dark);
+}
+
+.dark .search-input:focus {
+  border-color: var(--primary-green);
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .islamic-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus Styles for Accessibility */
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .islamic-card {
+    border: 2px solid var(--text-dark);
+  }
+  
+  .btn-primary {
+    border: 2px solid var(--text-dark);
+  }
+}
 
