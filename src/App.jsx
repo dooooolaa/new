@@ -2,7 +2,12 @@ import { useState, createContext, useContext, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { Moon, Sun, Book, Heart, Calendar, Compass, MessageSquare, Clock, User, LogIn } from 'lucide-react'
 import QuranReader from './components/quran/QuranReader.jsx'
+<<<<<<< HEAD
 import QuranPage from './components/quran/QuranPage.tsx'
+=======
+import SurahsList from './components/quran/SurahsList.jsx'
+// import QuranPage from './components/quran/QuranPage.tsx'
+>>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
 import QiblaAndPrayerTimes from './components/qibla/QiblaAndPrayerTimes.jsx'
 import HadithCollection from './components/hadith/HadithCollection.jsx'
 import ScholarsEncyclopedia from './components/scholars/ScholarsEncyclopedia.jsx'
@@ -231,6 +236,7 @@ function Navigation() {
             ))}
           </div>
 
+<<<<<<< HEAD
           {/* Right side controls */}
           <div className="flex items-center space-x-4">
             {/* Theme Toggle */}
@@ -248,6 +254,33 @@ function Navigation() {
                 <Link
                   to="/dashboard"
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 transition-colors"
+=======
+            {/* Right side buttons */}
+            <div className="flex items-center space-x-4">
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <Link to="/dashboard">
+                    <Button variant="ghost\" size=\"sm\" className=\"arabic-text">
+                      <User className="h-4 w-4 ml-2" />
+                      {user.name}
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={logout}
+                    className="arabic-text"
+                  >
+                    تسجيل الخروج
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setShowAuthModal(true)}
+                  className="arabic-text"
+>>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
                 >
                   <User size={16} />
                   <span className="hidden sm:block">{user.name}</span>
@@ -325,6 +358,7 @@ function ComingSoon({ title }) {
 
 function AppContent() {
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
       <Navigation />
       <main>
@@ -358,8 +392,35 @@ function App() {
         </Router>
       </AuthProvider>
     </ThemeProvider>
+=======
+    <AuthProvider>
+      <Router>
+        <div className={`min-h-screen ${isDark ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+          <Navigation isDark={isDark} toggleTheme={toggleTheme} />
+          
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/quran" element={<SurahsList />} />
+            <Route path="/quran/:surahNumber" element={<QuranReader />} />
+            <Route path="/hadith" element={<HadithCollection />} />
+            <Route path="/scholars" element={<ScholarsEncyclopedia />} />
+            <Route path="/audio" element={<AudioLibrary />} />
+            <Route path="/video" element={<VideoLibrary />} />
+            <Route path="/tests" element={<InteractiveTests />} />
+            <Route path="/search" element={<SmartSearch />} />
+            <Route path="/azkar" element={<AzkarPage />} />
+            <Route path="/duas" element={<DuasPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/qibla" element={<QiblaAndPrayerTimes />} />
+            <Route path="/dashboard" element={<UserDashboard />} />
+          </Routes>
+          
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
+>>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
   )
 }
 
 export default App
-

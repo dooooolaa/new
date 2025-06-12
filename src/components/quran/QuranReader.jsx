@@ -122,6 +122,7 @@ const QuranReader = () => {
               </p>
             </div>
 
+<<<<<<< HEAD
             <Button
               variant="outline"
               size="sm"
@@ -134,6 +135,17 @@ const QuranReader = () => {
           </div>
         </div>
       </div>
+=======
+      
+      <SurahPlayer
+        surahName={surah.englishName}
+        reciterName="رعد محمد الكردي"
+        reciterImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPtLFfPujGfBxXLu2E5zqjiy-vo11bAMjGdQ&s"
+        audioSrc="https://server6.mp3quran.net/kurdi"
+        onPrev={() => navigate(`/quran/${+surahNumber - 1}`)}
+        onNext={() => navigate(`/quran/${+surahNumber + 1}`)}
+      />
+>>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
 
       {/* Surah Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -155,6 +167,7 @@ const QuranReader = () => {
           </p>
         </div>
 
+<<<<<<< HEAD
         {/* Basmala */}
         {hasBasmala && basmalaVerse && (
           <div className="text-center mb-12 p-8 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border-2 border-yellow-200">
@@ -235,3 +248,13 @@ const QuranReader = () => {
 
 export default QuranReader
 
+=======
+      <AyahViewer
+        ayahs={(surah.ayahs || []).slice(0, 19)}
+        onPrevAyah={() => {}}
+        onNextAyah={() => {}}
+      />
+    </div>
+  );
+}
+>>>>>>> 8c3f3e110c1704368ac6a1944d88ff732592783a
